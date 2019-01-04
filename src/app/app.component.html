@@ -3,7 +3,6 @@
     <li><a [routerLink]="['/']">ホーム</a></li>
     <li *ngIf="!(auth.loggedIn | async)"><a [routerLink]="['/login']">ログイン</a></li>
     <li *ngIf="(auth.loggedIn | async)"><a (click)="onClickLogout()">ログアウト</a></li>
-    <li><a [routerLink]="['/signup']">登録</a></li>
   </ul>
 </nav>
 <router-outlet></router-outlet>

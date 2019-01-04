@@ -27,12 +27,18 @@ export class LoginComponent implements OnInit {
     const email = value.email, password = value.password;
     this.auth.signIn(email, password)
       .subscribe(
-        result => this.changePassword(email, password, result),
+        result => {
+          if (result.challengeName === 'NEW_PASSWORD_REQUIRED') {
+            this.changePassword(email, password, result);
+          } else {
+            this.router.navigate(['/home']);
+          }
+        },
         error => console.log(error)
       );
   }
 
   private changePassword(email: string, password: string, result): void {
-    this.auth.changePassword(email, password, result)
+    this.auth.changePassword(email, password, result);
   }
 }

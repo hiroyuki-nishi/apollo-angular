@@ -30,25 +30,22 @@ export class AuthService {
       );
   }
 
-  changePassword(email: string, password: string, result) {
-    if (result.challengeName === 'NEW_PASSWORD_REQUIRED') {
-      if (!result.challengeParam.userAttributes.email) result.challengeParam.userAttributes.email = email;
-      result.completeNewPasswordChallenge(password, result.challengeParam.userAttributes, {
-        onSuccess: session => {
-          console.log('success ' + session);
-        },
-        onFailure: err => {
-          console.log('completeNewPassword failure', err);
-        }
-      });
-    }
+  changePassword(email: string, password: string, result): void {
+    if (!result.challengeParam.userAttributes.email) result.challengeParam.userAttributes.email = email;
+    result.completeNewPasswordChallenge(password, result.challengeParam.userAttributes, {
+      onSuccess: session => {
+        console.log('success ' + session);
+      },
+      onFailure: err => {
+        console.log('completeNewPassword failure', err);
+      }
+    });
   }
 
   isAuthenticated(): Observable<boolean> {
     return fromPromise(Auth.currentAuthenticatedUser())
       .pipe(
         map(_result => {
-          console.log('t');
           this.loggedIn.next(true);
           return true;
         }),
