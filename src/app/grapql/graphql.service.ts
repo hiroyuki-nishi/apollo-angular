@@ -3,6 +3,7 @@ import { AUTH_TYPE } from 'aws-appsync/lib';
 import { Apollo } from 'apollo-angular';
 import { Injectable } from '@angular/core';
 import {Auth} from 'aws-amplify';
+import {NormalizedCacheObject} from 'apollo-cache-inmemory';
 
 
 @Injectable()
@@ -18,8 +19,8 @@ export class GraphqlService {
         type: AUTH_TYPE.AMAZON_COGNITO_USER_POOLS,
         jwtToken: async () => (await Auth.currentSession()).getIdToken().getJwtToken()
       },
-    } as any);
-    this.apollo.setClient(appsyncClient);
+    });
+    this.apollo.setClient(appsyncClient as any);
     return appsyncClient.hydrated();
   }
 }
