@@ -15,14 +15,6 @@ export class AuthService {
     this.loggedIn = new BehaviorSubject<boolean>(false);
   }
 
-  signUp(email: string, password: string): Observable<any> {
-    return fromPromise(Auth.signUp(email, password));
-  }
-
-  confirmSignUp(email: string, code: string): Observable<any> {
-    return fromPromise(Auth.confirmSignUp(email, code));
-  }
-
   signIn(email: string, password: string): Observable<any> {
     return fromPromise(Auth.signIn(email, password))
       .pipe(
@@ -50,7 +42,6 @@ export class AuthService {
           return true;
         }),
         catchError(error => {
-          console.log('e');
           this.loggedIn.next(false);
           return of(false);
         })

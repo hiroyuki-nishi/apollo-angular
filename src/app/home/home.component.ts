@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Application, Profile, QueryGQL} from '../query.service';
+import {Application, Profile, QueryGQL} from '../grapql/query.service';
 import {map} from 'rxjs/operators';
 
 @Component({

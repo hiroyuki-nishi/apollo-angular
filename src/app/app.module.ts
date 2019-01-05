@@ -5,7 +5,7 @@ import {HttpClientModule} from '@angular/common/http';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {GraphqlService} from './graphql.service';
+import {GraphqlService} from './grapql/graphql.service';
 import {LoginComponent} from './login/login.component';
 import {HomeComponent} from './home/home.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
