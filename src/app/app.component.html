@@ -1,6 +1,10 @@
-<nav>
-  <ul class="main-nav">
-    <li *ngIf="(auth.loggedIn | async)"><a (click)="onClickLogout()">ログアウト</a></li>
-  </ul>
+<nav *ngIf="(auth.loggedIn | async)">
+  <a (click)="onLogout()">
+    <button mat-button>
+      <i class="material-icons">exit_to_app</i>
+    </button>
+  </a>
 </nav>
-<router-outlet></router-outlet>
+<div class="contents">
+  <router-outlet></router-outlet>
+</div>

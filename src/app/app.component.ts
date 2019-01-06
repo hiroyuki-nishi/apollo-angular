@@ -29,7 +29,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  onClickLogout(): void {
+  onLogout(): void {
     this.auth.signOut();
   }
 }

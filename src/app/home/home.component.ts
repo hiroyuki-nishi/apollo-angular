@@ -1,40 +1,53 @@
-import { Component, OnInit } from '@angular/core';
-import { Application, Profile, ApplicationQuery } from '../grapql/applicaiton-query.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Application, ApplicationQuery } from '../grapql/applicaiton-query.service';
 import { map } from 'rxjs/operators';
 import { ApplicationMutation } from '../grapql/application-mutation.service';
+import { MatPaginator, MatTableDataSource } from '@angular/material';
+
 
 @Component({
-  selector: 'app-home',
   templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  applications: Application[];
-  profiles: Profile[];
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  dataSource: MatTableDataSource<Application>;
+  displayedColumns: string[] = ['id', 'itunesstore_id', 'updated'];
+  name: string;
 
-  constructor(private applicationQuery: ApplicationQuery, private applicationMutation: ApplicationMutation) {
+  constructor(
+    private applicationQuery: ApplicationQuery,
+    private applicationMutation: ApplicationMutation) {
   }
 
   ngOnInit(): void {
-    this.applicationQuery.watch().valueChanges.pipe(
-      map(x => x.data)
-    ).subscribe(res => {
-      this.applications = res.listApplications.items;
-      this.profiles = res.listProfiles.items;
-    });
+    this.findApplications();
   }
 
   addApplication(): void {
-    // TODO 型指定する
     this.applicationMutation.mutate({
       createapplicationsinput: {
-        company_id: 'test',
-        id: 'test',
+        id: Math.random().toString(36).slice(-8),
+        company_id: 'example',
+        itunesstore_id: this.name,
+        updated: new Date().toString()
       }
     }).pipe(
       map(x => x.data)
     ).subscribe(
-      res => console.log(res),
+      res => this.refrect(this.dataSource.data.concat(res.createApplications)),
       error => console.log(error)
     );
+  }
+
+  private findApplications(): void {
+    this.applicationQuery.watch().valueChanges.pipe(
+      map(x => x.data)
+    ).subscribe(res => this.refrect(res.listApplications.items));
+  }
+
+  private refrect(applications: Application[]): void {
+    this.dataSource = new MatTableDataSource(applications);
+    this.dataSource.paginator = this.paginator;
   }
 }

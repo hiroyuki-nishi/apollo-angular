@@ -1,9 +1,9 @@
 <form [formGroup]="loginForm" (ngSubmit)="onSubmitLogin(loginForm.value)">
-  <div class="group">
-    <input type="email" formControlName="email" placeholder="Email">
-  </div>
-  <div class="group">
-    <input type="password"  formControlName="password" placeholder="Password">
-  </div>
-  <button type="submit" class="button buttonBlue">Login</button>
+  <mat-form-field class="input-full-width">
+    <input matInput type="email" formControlName="email" placeholder="Email">
+  </mat-form-field>
+  <mat-form-field class="input-full-width">
+    <input matInput type="password" formControlName="password" placeholder="Password">
+  </mat-form-field>
+  <button type="submit" mat-raised-button color="primary">Login</button>
 </form>
