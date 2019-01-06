@@ -1,5 +1,5 @@
-import {Injectable} from '@angular/core';
-import {Query} from 'apollo-angular';
+import { Injectable } from '@angular/core';
+import { Query } from 'apollo-angular';
 import gql from 'graphql-tag';
 
 export interface Application {
@@ -25,7 +25,7 @@ export interface ApplicationsWithProfiles {
 @Injectable({
   providedIn: 'root',
 })
-export class QueryGQL extends Query<ApplicationsWithProfiles> {
+export class ApplicationQuery extends Query<ApplicationsWithProfiles> {
   document = gql`
     query {
       listApplications {
@@ -35,7 +35,7 @@ export class QueryGQL extends Query<ApplicationsWithProfiles> {
           updated
         }
       }
-    listProfiles {
+      listProfiles {
         items {
           identifier
         }

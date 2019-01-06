@@ -1,6 +1,5 @@
 <nav>
   <ul class="main-nav">
-    <li *ngIf="!(auth.loggedIn | async)"><a [routerLink]="['/login']">ログイン</a></li>
     <li *ngIf="(auth.loggedIn | async)"><a (click)="onClickLogout()">ログアウト</a></li>
   </ul>
 </nav>

@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {Application, Profile, QueryGQL} from '../grapql/query.service';
-import {map} from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { Application, Profile, ApplicationQuery } from '../grapql/applicaiton-query.service';
+import { map } from 'rxjs/operators';
+import { ApplicationMutation } from '../grapql/application-mutation.service';
 
 @Component({
   selector: 'app-home',
@@ -10,14 +11,30 @@ export class HomeComponent implements OnInit {
   applications: Application[];
   profiles: Profile[];
 
-  constructor(private service: QueryGQL) {}
+  constructor(private applicationQuery: ApplicationQuery, private applicationMutation: ApplicationMutation) {
+  }
 
   ngOnInit(): void {
-    this.service.watch().valueChanges.pipe(
-      map(v => v.data)
+    this.applicationQuery.watch().valueChanges.pipe(
+      map(x => x.data)
     ).subscribe(res => {
       this.applications = res.listApplications.items;
       this.profiles = res.listProfiles.items;
     });
+  }
+
+  addApplication(): void {
+    // TODO 型指定する
+    this.applicationMutation.mutate({
+      createapplicationsinput: {
+        company_id: 'test',
+        id: 'test',
+      }
+    }).pipe(
+      map(x => x.data)
+    ).subscribe(
+      res => console.log(res),
+      error => console.log(error)
+    );
   }
 }

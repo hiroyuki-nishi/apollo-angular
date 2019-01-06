@@ -3,7 +3,6 @@ import { AUTH_TYPE } from 'aws-appsync/lib';
 import { Apollo } from 'apollo-angular';
 import { Injectable } from '@angular/core';
 import {Auth} from 'aws-amplify';
-import {NormalizedCacheObject} from 'apollo-cache-inmemory';
 
 
 @Injectable()
@@ -20,7 +19,7 @@ export class GraphqlService {
         jwtToken: async () => (await Auth.currentSession()).getIdToken().getJwtToken()
       },
     });
-    this.apollo.setClient(appsyncClient as any);
+    this.apollo.setClient(appsyncClient as any); // TODO
     return appsyncClient.hydrated();
   }
 }
