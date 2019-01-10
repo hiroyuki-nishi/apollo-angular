@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Application, ApplicationQuery } from '../grapql/applicaiton-query.service';
 import { map } from 'rxjs/operators';
-import { ApplicationMutation } from '../grapql/application-mutation.service';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
-
+import { CreateApplicationsGQL, ListApplications, ListApplicationsGQL, Maybe } from '../../generated/graphql';
+import Items = ListApplications.Items;
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   templateUrl: './home.component.html',
@@ -11,17 +11,30 @@ import { MatPaginator, MatTableDataSource } from '@angular/material';
 })
 export class HomeComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  dataSource: MatTableDataSource<Application>;
-  displayedColumns: string[] = ['id', 'itunesstore_id', 'updated'];
+  dataSource: MatTableDataSource<Maybe<(Maybe<Items>)>>;
+  displayedColumns: string[] = ['select', 'id', 'itunesstore_id', 'updated'];
+  selection = new SelectionModel<Maybe<(Maybe<Items>)>>(true, []);
   name: string;
 
   constructor(
-    private applicationQuery: ApplicationQuery,
-    private applicationMutation: ApplicationMutation) {
-  }
+    private listApplicationsGQL: ListApplicationsGQL,
+    private applicationMutation: CreateApplicationsGQL
+  ) {}
 
   ngOnInit(): void {
     this.findApplications();
+  }
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  masterToggle() {
+    this.isAllSelected() ?
+        this.selection.clear() :
+        this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
   addApplication(): void {
@@ -41,12 +54,12 @@ export class HomeComponent implements OnInit {
   }
 
   private findApplications(): void {
-    this.applicationQuery.watch().valueChanges.pipe(
+    this.listApplicationsGQL.watch().valueChanges.pipe(
       map(x => x.data)
     ).subscribe(res => this.refrect(res.listApplications.items));
   }
 
-  private refrect(applications: Application[]): void {
+  private refrect(applications: Maybe<(Maybe<Items>)[]>): void {
     this.dataSource = new MatTableDataSource(applications);
     this.dataSource.paginator = this.paginator;
   }

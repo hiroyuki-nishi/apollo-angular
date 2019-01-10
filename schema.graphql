@@ -1,0 +1,157 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type Applications {
+  company_id: String!
+  id: String!
+  itunesstore_id: String
+  updated: String
+}
+
+type ApplicationsConnection {
+  items: [Applications]
+  nextToken: String
+}
+
+type Mutation {
+  createApplications(input: CreateApplicationsInput!): Applications
+  createProfiles(input: CreateProfilesInput!): Profiles
+  deleteApplications(input: DeleteApplicationsInput!): Applications
+  deleteProfiles(input: DeleteProfilesInput!): Profiles
+  updateApplications(input: UpdateApplicationsInput!): Applications
+  updateProfiles(input: UpdateProfilesInput!): Profiles
+}
+
+type Profiles {
+  company_id: String!
+  id: String!
+  identifier: String
+  updated: String
+}
+
+type ProfilesConnection {
+  items: [Profiles]
+  nextToken: String
+}
+
+type Query {
+  getApplications(company_id: String!, id: String!): Applications
+  getProfiles(company_id: String!, id: String!): Profiles
+  listApplications(filter: TableApplicationsFilterInput, limit: Int, nextToken: String): ApplicationsConnection
+  listProfiles(filter: TableProfilesFilterInput, limit: Int, nextToken: String): ProfilesConnection
+  queryApplicationsByCompanyIdIndex(after: String, company_id: String!, first: Int): ApplicationsConnection
+  queryApplicationsByCompanyIdItunesstoreIdIndex(after: String, company_id: String!, first: Int): ApplicationsConnection
+  queryApplicationsByCompanyIdUpdatedIndex(after: String, company_id: String!, first: Int): ApplicationsConnection
+  queryProfilesByCompanyIdIdentifierIndex(after: String, company_id: String!, first: Int): ProfilesConnection
+  queryProfilesByCompanyIdIndex(after: String, company_id: String!, first: Int): ProfilesConnection
+  queryProfilesByCompanyIdUpdatedIndex(after: String, company_id: String!, first: Int): ProfilesConnection
+}
+
+input CreateApplicationsInput {
+  company_id: String!
+  id: String!
+  itunesstore_id: String
+  updated: String
+}
+
+input CreateProfilesInput {
+  company_id: String!
+  id: String!
+  identifier: String
+  updated: String
+}
+
+input DeleteApplicationsInput {
+  company_id: String!
+  id: String!
+}
+
+input DeleteProfilesInput {
+  company_id: String!
+  id: String!
+}
+
+input TableApplicationsFilterInput {
+  company_id: TableStringFilterInput
+  id: TableStringFilterInput
+  itunesstore_id: TableStringFilterInput
+  updated: TableStringFilterInput
+}
+
+input TableBooleanFilterInput {
+  eq: Boolean
+  ne: Boolean
+}
+
+input TableFloatFilterInput {
+  between: [Float]
+  contains: Float
+  eq: Float
+  ge: Float
+  gt: Float
+  le: Float
+  lt: Float
+  ne: Float
+  notContains: Float
+}
+
+input TableIDFilterInput {
+  beginsWith: ID
+  between: [ID]
+  contains: ID
+  eq: ID
+  ge: ID
+  gt: ID
+  le: ID
+  lt: ID
+  ne: ID
+  notContains: ID
+}
+
+input TableIntFilterInput {
+  between: [Int]
+  contains: Int
+  eq: Int
+  ge: Int
+  gt: Int
+  le: Int
+  lt: Int
+  ne: Int
+  notContains: Int
+}
+
+input TableProfilesFilterInput {
+  company_id: TableStringFilterInput
+  id: TableStringFilterInput
+  identifier: TableStringFilterInput
+  updated: TableStringFilterInput
+}
+
+input TableStringFilterInput {
+  beginsWith: String
+  between: [String]
+  contains: String
+  eq: String
+  ge: String
+  gt: String
+  le: String
+  lt: String
+  ne: String
+  notContains: String
+}
+
+input UpdateApplicationsInput {
+  company_id: String!
+  id: String!
+  itunesstore_id: String
+  updated: String
+}
+
+input UpdateProfilesInput {
+  company_id: String!
+  id: String!
+  identifier: String
+  updated: String
+}

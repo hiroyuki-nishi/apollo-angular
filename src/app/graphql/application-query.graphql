@@ -1,0 +1,10 @@
+query listApplications {
+  listApplications {
+    items {
+      id
+      itunesstore_id
+      updated
+    }
+  }
+}
+

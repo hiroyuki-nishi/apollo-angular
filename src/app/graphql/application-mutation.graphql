@@ -1,0 +1,9 @@
+mutation createApplications($createapplicationsinput: CreateApplicationsInput!) {
+  createApplications(input: $createapplicationsinput) {
+    company_id
+    id
+    itunesstore_id
+    updated
+  }
+}
+
