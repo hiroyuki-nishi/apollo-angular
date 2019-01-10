@@ -190,6 +190,26 @@ export namespace CreateApplications {
   };
 }
 
+export namespace DeleteApplications {
+  export type Variables = {
+    deleteApplicationsInput: DeleteApplicationsInput;
+  };
+
+  export type Mutation = {
+    __typename?: "Mutation";
+
+    deleteApplications: Maybe<DeleteApplications>;
+  };
+
+  export type DeleteApplications = {
+    __typename?: "Applications";
+
+    company_id: string;
+
+    id: string;
+  };
+}
+
 export namespace ListApplications {
   export type Variables = {};
 
@@ -245,6 +265,24 @@ export class CreateApplicationsGQL extends Apollo.Mutation<
         id
         itunesstore_id
         updated
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: "root"
+})
+export class DeleteApplicationsGQL extends Apollo.Mutation<
+  DeleteApplications.Mutation,
+  DeleteApplications.Variables
+> {
+  document: any = gql`
+    mutation deleteApplications(
+      $deleteApplicationsInput: DeleteApplicationsInput!
+    ) {
+      deleteApplications(input: $deleteApplicationsInput) {
+        company_id
+        id
       }
     }
   `;

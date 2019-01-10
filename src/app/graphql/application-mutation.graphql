@@ -7,3 +7,9 @@ mutation createApplications($createapplicationsinput: CreateApplicationsInput!) 
   }
 }
 
+mutation deleteApplications($deleteApplicationsInput: DeleteApplicationsInput!) {
+  deleteApplications(input: $deleteApplicationsInput) {
+    company_id
+    id
+  }
+}
