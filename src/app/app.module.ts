@@ -13,6 +13,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './auth/auth.service';
 import { AuthGuard } from './auth/auth-guard';
 import { GraphqlService } from './graphql/graphql.service';
+import { GridModule } from './grid/grid.module';
 
 @NgModule({
   declarations: [
@@ -26,13 +27,11 @@ import { GraphqlService } from './graphql/graphql.service';
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
+    GridModule,
     HttpClientModule,
     MatButtonModule,
-    MatCheckboxModule,
     MatIconModule,
     MatInputModule,
-    MatPaginatorModule,
-    MatTableModule,
     ReactiveFormsModule,
   ],
   providers: [

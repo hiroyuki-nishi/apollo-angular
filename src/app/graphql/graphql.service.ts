@@ -19,7 +19,7 @@ export class GraphqlService {
         jwtToken: async () => (await Auth.currentSession()).getIdToken().getJwtToken()
       },
     });
-    this.apollo.setClient(appsyncClient as any); // TODO
+    this.apollo.setClient(appsyncClient as any);
     return appsyncClient.hydrated();
   }
 }
