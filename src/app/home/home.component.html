@@ -6,11 +6,11 @@
     <mat-form-field>
       <input matInput type="text" placeholder="Name" [(ngModel)]="appName">
     </mat-form-field>
-    <button mat-mini-fab [disabled]="!appName?.length > 0">
-      <mat-icon (click)="addApplication()">add</mat-icon>
+    <button mat-mini-fab [disabled]="!appName?.length > 0" (click)="addApplication()">
+      <mat-icon >add</mat-icon>
     </button>
-    <button mat-mini-fab [disabled]="!selectedData?.selected?.length > 0">
-      <mat-icon (click)="deleteApplications(selectedData)">delete</mat-icon>
+    <button mat-mini-fab [disabled]="!selectedData?.selected?.length > 0"  (click)="deleteApplications(selectedData)">
+      <mat-icon>delete</mat-icon>
     </button>
   </div>
 </app-grid>

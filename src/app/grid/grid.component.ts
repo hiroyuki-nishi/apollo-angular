@@ -17,6 +17,10 @@ export class GridComponent {
     this.reflect(new MatTableDataSource(data));
   }
 
+  clear(): void {
+    this.selectedData.clear();
+  }
+
   isAllSelected(): boolean {
     return this.selectedData.selected.length === this._data.data.length;
   }

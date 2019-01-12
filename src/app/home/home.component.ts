@@ -2,9 +2,17 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { SelectionModel } from '@angular/cdk/collections';
 
-import { CreateApplicationsGQL, DeleteApplicationsGQL, ListApplications, ListApplicationsGQL, Maybe } from '../../generated/graphql';
+import {
+  CreateApplicationsGQL,
+  DeleteApplications,
+  DeleteApplicationsGQL,
+  ListApplications,
+  ListApplicationsGQL,
+  Maybe
+} from '../../generated/graphql';
 import Items = ListApplications.Items;
 import { GridComponent } from '../grid/grid.component';
+import { Observable, forkJoin } from 'rxjs';
 
 @Component({
   templateUrl: './home.component.html',
@@ -53,20 +61,20 @@ export class HomeComponent implements OnInit {
   }
 
   deleteApplications(data: SelectionModel<Maybe<(Maybe<Items>)>>): void {
-    data.selected.forEach(x => this.deleteApplication(x));
+    forkJoin(
+      data.selected.map(x => this.deleteApplication(x))
+    ).subscribe(res => {
+      this.dataSource = this.dataSource.filter(x => res.every(r => x.id !== r.deleteApplications.id));
+      this.grid.clear();
+    });
   }
 
-  private deleteApplication(item: Maybe<(Maybe<Items>)>): void {
-    this.deleteApplicationsGQL.mutate({
+  private deleteApplication(item: Maybe<(Maybe<Items>)>): Observable<DeleteApplications.Mutation> {
+    return this.deleteApplicationsGQL.mutate({
       deleteApplicationsInput: {
         company_id: this.companyId,
         id: item.id
       }
-    }).pipe(map(x => x.data)).subscribe(
-      res => console.log(res),
-      // TODO
-      // res => this.refrect(this.dataSource.data.concat(res.deleteApplications)),
-      error => console.log(error)
-    );
+    }).pipe(map(x => x.data));
   }
 }
