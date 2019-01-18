@@ -1,6 +1,7 @@
 query listApplications {
   listApplications {
     items {
+      company_id
       id
       itunesstore_id
       updated

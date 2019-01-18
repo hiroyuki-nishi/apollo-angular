@@ -36,6 +36,13 @@ export class HomeComponent implements OnInit {
     this.findApplications();
   }
 
+  private findApplications(): void {
+    this.listApplicationsGQL.watch().valueChanges.pipe(
+      map(x => x.data.listApplications.items)
+    ).subscribe(res => this.dataSource = res);
+  }
+
+
   dataSelected(data: SelectionModel<Maybe<(Maybe<Items>)[]>>): void {
     this.selectedData = data;
   }
@@ -54,18 +61,12 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  private findApplications(): void {
-    this.listApplicationsGQL.watch().valueChanges.pipe(
-      map(x => x.data)
-    ).subscribe(res => this.dataSource = res.listApplications.items);
-  }
-
   deleteApplications(data: SelectionModel<Maybe<(Maybe<Items>)>>): void {
     forkJoin(
       data.selected.map(x => this.deleteApplication(x))
     ).subscribe(res => {
       this.dataSource = this.dataSource.filter(x => res.every(r => x.id !== r.deleteApplications.id));
-      this.grid.clear();
+      this.grid.clearSelected();
     });
   }
 

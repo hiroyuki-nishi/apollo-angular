@@ -32,16 +32,6 @@ export interface TableStringFilterInput {
   notContains?: Maybe<string>;
 }
 
-export interface TableProfilesFilterInput {
-  company_id?: Maybe<TableStringFilterInput>;
-
-  id?: Maybe<TableStringFilterInput>;
-
-  identifier?: Maybe<TableStringFilterInput>;
-
-  updated?: Maybe<TableStringFilterInput>;
-}
-
 export interface CreateApplicationsInput {
   company_id: string;
 
@@ -52,23 +42,7 @@ export interface CreateApplicationsInput {
   updated?: Maybe<string>;
 }
 
-export interface CreateProfilesInput {
-  company_id: string;
-
-  id: string;
-
-  identifier?: Maybe<string>;
-
-  updated?: Maybe<string>;
-}
-
 export interface DeleteApplicationsInput {
-  company_id: string;
-
-  id: string;
-}
-
-export interface DeleteProfilesInput {
   company_id: string;
 
   id: string;
@@ -80,16 +54,6 @@ export interface UpdateApplicationsInput {
   id: string;
 
   itunesstore_id?: Maybe<string>;
-
-  updated?: Maybe<string>;
-}
-
-export interface UpdateProfilesInput {
-  company_id: string;
-
-  id: string;
-
-  identifier?: Maybe<string>;
 
   updated?: Maybe<string>;
 }
@@ -228,6 +192,8 @@ export namespace ListApplications {
   export type Items = {
     __typename?: "Applications";
 
+    company_id: string;
+
     id: string;
 
     itunesstore_id: Maybe<string>;
@@ -298,6 +264,7 @@ export class ListApplicationsGQL extends Apollo.Query<
     query listApplications {
       listApplications {
         items {
+          company_id
           id
           itunesstore_id
           updated

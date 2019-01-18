@@ -17,7 +17,7 @@ export class GridComponent {
     this.reflect(new MatTableDataSource(data));
   }
 
-  clear(): void {
+  clearSelected(): void {
     this.selectedData.clear();
   }
 
